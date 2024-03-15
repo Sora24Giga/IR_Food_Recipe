@@ -1,23 +1,41 @@
-<script></script>
+<script setup lang="ts">
+import DetailService from '@/services/DetailService';
+import type { Detail } from '@/type';
+import type { AxiosResponse } from 'axios';
+import { ref, type Ref } from 'vue'
+import { onBeforeRouteUpdate } from 'vue-router';
+const detail: Ref<Detail> = ref(null)
+
+
+let queryFunction = DetailService.getRecipe(38)
+queryFunction
+    .then((response: AxiosResponse<Detail[]>) => {
+        detail.value = response.data[0]
+        image.value = detail.value.Images[0]
+        ingredient.value = detail.value.RecipeIngredientParts
+        instruction.value = detail.value.RecipeInstructions
+    })
+
+onBeforeRouteUpdate((to, from, next) => {
+    let queryFunction = DetailService.getRecipe(38)
+    queryFunction
+        .then((response: AxiosResponse<Detail[]>) => {
+            detail.value = response.data[0]
+        })
+})
+const ingredient: Ref<Array<Detail>> = ref([])
+const instruction: Ref<Array<Detail>> = ref([])
+const image = ref('')
+</script>
 
 <template>
     <section class="bg-white">
         <div class="lg:grid h-[calc(100vh-4rem)] lg:grid-cols-12">
             <section class="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
-                <img alt=""
-                    src="https://images.unsplash.com/photo-1617195737496-bc30194e3a19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                    class="absolute inset-0 h-full w-full object-cover opacity-80" />
+                <img alt="" :src="image" class="absolute inset-0 h-full w-full object-cover opacity-80" />
 
                 <div class="hidden lg:relative lg:block lg:p-12">
 
-                    <h2 class="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
-                        Welcome to Squid 🦑
-                    </h2>
-
-                    <p class="mt-4 leading-relaxed text-white/90">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam,
-                        quibusdam aperiam voluptatum.
-                    </p>
                 </div>
             </section>
 
@@ -28,68 +46,22 @@
                     <div class="flow-root rounded-lg border border-gray-100 py-3 shadow-sm">
                         <dl class="-my-3 divide-y divide-gray-100 text-sm">
                             <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                                <dt class="font-medium text-gray-900">Title</dt>
-                                <dd class="text-gray-700 sm:col-span-2">Mr</dd>
+                                <dt class="font-medium text-gray-900">Name</dt>
+                                <dd class="text-gray-700 sm:col-span-2">{{ detail.Name }}</dd>
                             </div>
 
                             <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                                <dt class="font-medium text-gray-900">Name</dt>
+                                <dt class="font-medium text-gray-900">Ingredient</dt>
                                 <dd class="text-gray-700 sm:col-span-2">
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto?
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto? Lorem ipsum dolor, sit
-                                    amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto? Lorem ipsum dolor, sit
-                                    amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto? Lorem ipsum dolor, sit
-                                    amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto? Lorem ipsum dolor, sit
-                                    amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto?
+                                    <p v-for="d in ingredient">{{ d }}</p>
                                 </dd>
                             </div>
 
 
                             <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                                <dt class="font-medium text-gray-900">Bio</dt>
+                                <dt class="font-medium text-gray-900">Cooking Step</dt>
                                 <dd class="text-gray-700 sm:col-span-2">
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto?
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto? Lorem ipsum dolor, sit
-                                    amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto? Lorem ipsum dolor, sit
-                                    amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto? Lorem ipsum dolor, sit
-                                    amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto? Lorem ipsum dolor, sit
-                                    amet consectetur adipisicing elit. Et facilis debitis
-                                    explicabo
-                                    doloremque impedit nesciunt dolorem facere, dolor quasi veritatis quia fugit aperiam
-                                    aspernatur neque molestiae labore aliquam soluta architecto?
+                                    <p v-for="d in instruction">{{ d }}</p>
                                 </dd>
                             </div>
 
@@ -155,10 +127,33 @@
                                         </label>
                                     </div>
                                     <!-- End Rating -->
+
+                                    <br>
+
+                                    <fieldset>
+                                        <legend class="sr-only">Checkboxes</legend>
+
+                                        <div class="space-y-2">
+                                            <label for="Option1" class="flex cursor-pointer items-start gap-4">
+                                                <div class="flex items-center">
+                                                    &#8203;
+                                                    <input type="checkbox" class="size-4 rounded border-gray-300"
+                                                        id="Option1" />
+                                                </div>
+
+                                                <div>
+                                                    <strong class="font-medium text-gray-900"> Bookmark </strong>
+                                                </div>
+                                            </label>
+
+                                        </div>
+                                    </fieldset>
                                 </dd>
+
                             </div>
 
                         </dl>
+
                     </div>
                 </div>
             </main>
