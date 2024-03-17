@@ -13,3 +13,9 @@ export interface Detail {
     RecipeIngredientParts: string
     RecipeInstructions: string
 }
+
+export interface User {
+    id: number
+    username: string
+    roles: string[]
+}

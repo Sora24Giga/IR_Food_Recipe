@@ -1,6 +1,20 @@
-<script>
+<script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import IRService from '@/services/IRService'
+import { useRecipeStore } from '@/stores/recipe'
 
+const authStore = useAuthStore()
+const router = useRouter()
+
+const token = localStorage.getItem('access_token')
+const user = localStorage.getItem('user')
+function logout() {
+    authStore.logout()
+    router.push({ name: 'login' })
+}
 </script>
 
 <template>
@@ -43,25 +57,42 @@ import { RouterLink, RouterView } from 'vue-router'
 
                 <div class="flex items-center gap-4">
                     <div class="sm:flex sm:gap-4">
-                        <RouterLink class="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400"
-                            :to="{ name: 'login' }">
-                            Login
-                        </RouterLink>
-
-                        <RouterLink class="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400"
-                            :to="{ name: 'register' }">
-                            Register
-                        </RouterLink>
+                        <div v-if="!authStore.isLoggedIn">
+                            <RouterLink
+                                class="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400"
+                                :to="{ name: 'login' }">
+                                Login
+                            </RouterLink>
+                        </div>
+                        <div v-if="!authStore.isLoggedIn">
+                            <RouterLink
+                                class="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400"
+                                :to="{ name: 'register' }">
+                                Register
+                            </RouterLink>
+                        </div>
                     </div>
 
-                    <button
-                        class="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 md:hidden">
-                        <span class="sr-only">Toggle menu</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
+                    <div class="sm:flex sm:gap-4">
+                        <div v-if="authStore.isLoggedIn">
+                            <button @click="logout"
+                                class="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
+                                Logout
+                            </button>
+                        </div>
+
+                        <div v-if="authStore.isLoggedIn">
+                            <RouterLink
+                                class="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400"
+                                :to="{ name: 'profile' }">
+                                Profile
+                            </RouterLink>
+                        </div>
+                    </div>
+
+
+
+
                 </div>
             </div>
         </div>
@@ -69,6 +100,6 @@ import { RouterLink, RouterView } from 'vue-router'
 
     <br>
     <br>
-   <br>
+    <br>
 
 </template>
