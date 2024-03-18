@@ -1,32 +1,69 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, onBeforeRouteUpdate } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import DetailService from '@/services/DetailService'
 import { useRecipeStore } from '@/stores/counter'
+import type { Collection, Option } from '@/type';
+import { storeToRefs } from 'pinia'
 
+
+const recipeStore = useRecipeStore()
 const authStore = useAuthStore()
 const router = useRouter()
 const query = ref('')
 
 const token = localStorage.getItem('access_token')
 const user = localStorage.getItem('user')
+
+const collection = storeToRefs(recipeStore).collection
+const options: Ref<Array<Option>> = ref([])
+
+
 function logout() {
     authStore.logout()
     router.push({ name: 'login' })
 }
 
 
-async function search(query: string){
-  const recipeStore = useRecipeStore()
-  await DetailService.searchRecipe(query)
-    .then((response) => {
-      console.log(response.data)
-      recipeStore.setCurrentRecipe(response.data)
-      router.push({name: 'search', params: {query: query}})
-    })
+async function search(query: string) {
+
+    await DetailService.searchRecipe(query)
+        .then(async (response) => {
+            console.log(response.data)
+            recipeStore.setCurrentRecipe(response.data)
+            await DetailService.searchcollection(query).then((res) => {
+                recipeStore.setCollection(res.data)
+                coll()
+                router.push({ name: 'search', params: { query: query } })
+            })
+
+        })
 }
+
+const text = ref('')
+const suggestion = ref(false)
+
+function coll() {
+    text.value = ''
+    collection.value.forEach((query) => {
+        console.log(query)
+        if (query.options != null && query.options.length != 0) {
+            text.value = text.value + ' ' + query.options[0].text
+            suggestion.value = true
+        } else {
+            text.value = text.value + ' ' + query.text
+        }
+    }
+    )
+
+}
+
+
+ 
+
+
 </script>
 
 <template>
@@ -100,15 +137,14 @@ async function search(query: string){
                     </div>
 
 
-
-
                 </div>
             </div>
         </div>
+        <p class="w-3/4 mx-auto text-xs font-bold uppercase text-gray-900">Did u mean? <button @click="search(text)" class="hover:text-red">{{ text }}</button></p>
+
     </nav>
-
     <br>
     <br>
     <br>
-
+    <br>
 </template>

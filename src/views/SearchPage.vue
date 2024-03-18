@@ -5,7 +5,7 @@ import DetailVue from "@/views/Detail.vue"
 
 //
 import DetailService from '@/services/DetailService';
-import type { Detail } from '@/type';
+import type { Detail, Collection, Option } from '@/type';
 import type { AxiosResponse } from 'axios';
 import { ref, type Ref } from 'vue'
 const detail: Ref<Detail> = ref(null)
@@ -36,20 +36,21 @@ function showModal(id) {
 }
 
 //Detail modal
-function modalDetail(id: number){
-let queryFunction = DetailService.getRecipe(id)
-queryFunction
-    .then((response: AxiosResponse<Detail[]>) => {
-        detail.value = response.data[0]
-        image.value = detail.value.Images[0]
-        ingredient.value = detail.value.RecipeIngredientParts
-        instruction.value = detail.value.RecipeInstructions
-    })
+function modalDetail(id: number) {
+    let queryFunction = DetailService.getRecipe(id)
+    queryFunction
+        .then((response: AxiosResponse<Detail[]>) => {
+            detail.value = response.data[0]
+            image.value = detail.value.Images[0]
+            ingredient.value = detail.value.RecipeIngredientParts
+            instruction.value = detail.value.RecipeInstructions
+        })
 }
 
 const ingredient: Ref<Array<Detail>> = ref([])
 const instruction: Ref<Array<Detail>> = ref([])
 const image = ref('')
+
 
 storeRecipe.value = recipe.currentRecipe
 
@@ -63,6 +64,7 @@ console.log(storeRecipe.value)
 
 </script>
 <template>
+
     <nav class="w-3/4 mx-auto">
         <button v-for="i in storeRecipe" :key="i.RecipeId" class="flex bg-white transition hover:shadow-xl mb-5 w-full"
             @click="showModal(i.RecipeId)">
@@ -192,23 +194,21 @@ console.log(storeRecipe.value)
                                             <br>
 
                                             <fieldset>
-                                                <legend class="sr-only">Checkboxes</legend>
+                                                <div>
+                                                    <div>
+                                                        <label for="HeadlineAct"
+                                                            class="block text-sm font-medium text-gray-900">
+                                                            Bookmark </label>
 
-                                                <div class="space-y-2">
-                                                    <label for="Option1" class="flex cursor-pointer items-start gap-4">
-                                                        <div class="flex items-center">
-                                                            &#8203;
-                                                            <input type="checkbox"
-                                                                class="size-4 rounded border-gray-300" id="Option1" />
-                                                        </div>
+                                                        <select name="HeadlineAct" id="HeadlineAct"
+                                                            class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm">
+                                                            <option value="">Please select</option>
+                                                            <option value="JM">John Mayer</option>
 
-                                                        <div>
-                                                            <strong class="font-medium text-gray-900"> Bookmark
-                                                            </strong>
-                                                        </div>
-                                                    </label>
-
+                                                        </select>
+                                                    </div>
                                                 </div>
+
                                             </fieldset>
                                         </dd>
 

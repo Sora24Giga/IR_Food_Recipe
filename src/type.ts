@@ -28,3 +28,16 @@ export interface Folder {
     recipeList: string[]
     baseFolder: boolean
 }
+
+export interface Collection {
+    length: number
+    offset: number
+    options: Option[]
+    text: string
+}
+
+export interface Option {
+    freq: number
+    score: number
+    text: string
+}
