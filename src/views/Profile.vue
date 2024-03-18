@@ -24,6 +24,40 @@
                 class="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
                 Create
             </button>
+            <br>
+
+            <article class="flex bg-white transition hover:shadow-xl">
+
+                <div class="flex flex-1 flex-col justify-between">
+                    <div class="border-s border-gray-900/10 p-4 sm:border-l-transparent sm:p-6">
+                        <a href="#">
+                            <h3 class="font-bold uppercase text-gray-900">
+                                Folder 1
+                            </h3>
+                        </a>
+
+                        <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-700">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis
+                            quidem, mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius
+                            atque dignissimos. Molestias explicabo corporis voluptatem?
+                        </p>
+                        <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-700">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis
+                            quidem, mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius
+                            atque dignissimos. Molestias explicabo corporis voluptatem?
+                        </p>
+                        <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-700">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+                            pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis
+                            quidem, mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius
+                            atque dignissimos. Molestias explicabo corporis voluptatem?
+                        </p>
+                    </div>
+
+                </div>
+            </article>
         </div>
 
 

@@ -5,6 +5,7 @@ import type { AxiosResponse } from 'axios';
 import { ref, type Ref } from 'vue'
 import { onBeforeRouteUpdate } from 'vue-router';
 const detail: Ref<Detail> = ref(null)
+import { useRecipeStore } from '@/stores/counter'
 
 
 let queryFunction = DetailService.getRecipe(38)
@@ -26,6 +27,18 @@ onBeforeRouteUpdate((to, from, next) => {
 const ingredient: Ref<Array<Detail>> = ref([])
 const instruction: Ref<Array<Detail>> = ref([])
 const image = ref('')
+
+const recipe = useRecipeStore()
+const storeRecipe = ref(recipe.currentRecipe)
+
+storeRecipe.value = recipe.currentRecipe
+
+onBeforeRouteUpdate(() => {
+    storeRecipe.value = recipe.currentRecipe
+})
+
+console.log(storeRecipe.value)
+
 </script>
 
 <template>

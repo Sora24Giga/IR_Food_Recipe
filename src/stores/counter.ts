@@ -1,12 +1,12 @@
-import { ref, computed } from 'vue'
+import type {Detail} from '@/type'
 import { defineStore } from 'pinia'
-
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
-  }
-
-  return { count, doubleCount, increment }
+export const useRecipeStore = defineStore('recipe', {
+    state: () => ({
+        currentRecipe: [] as Detail[]
+    }),
+    actions: {
+        setCurrentRecipe(recipe: Detail[]) {
+          this.currentRecipe = recipe
+        },
+    }
 })
