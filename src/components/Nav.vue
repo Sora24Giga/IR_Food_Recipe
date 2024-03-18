@@ -140,7 +140,7 @@ function coll() {
                 </div>
             </div>
         </div>
-        <p class="w-3/4 mx-auto text-xs font-bold uppercase text-gray-900">Did u mean? <button @click="search(text)" class="hover:text-red">{{ text }}</button></p>
+        <p class="w-3/4 mx-auto text-xs font-bold uppercase text-gray-900">Did u mean? <button @click="search(text)" class="hover:text-red-500">{{ text }}</button></p>
 
     </nav>
     <br>
